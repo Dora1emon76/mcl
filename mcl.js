@@ -26,8 +26,8 @@ function apiCall(options) {
     query: options.body,
     folow_redirects: true,
     completed_commands_count: 0,
-    success: libPrefix + 'onApiAnswer ' + options.onSuccess,
-    error: libPrefix + 'onApiError'
+    success: lib + 'onApiAnswer ' + options.onSuccess,
+    error: lib + 'onApiError'
   };
 
 function mcl(user_id, chat_id,command){
@@ -40,7 +40,7 @@ function mcl(user_id, chat_id,command){
     return;
   }
   if(!command){
-    throw 'ProjectoidLib-> weather: Command not found to return response'
+    throw 'ProjectoidLib-> mcl: Command not found to return response'
     return;
   }
   let data = {
