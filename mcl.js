@@ -30,9 +30,13 @@ function apiCall(options) {
     error: libPrefix + 'onApiError'
   };
 
-function mcl(user_id, chat_id){
-  if(!location){
-    throw 'ProjectoidLib-> weather: location not found to extract details'
+function mcl(user_id, chat_id,command){
+  if(!user_id){
+    throw 'ProjectoidLib-> mcl: location not found to extract details'
+    return;
+  }
+  if(!chat_id){
+    throw 'ProjectoidLib-> mcl: Commmand not found to return response'
     return;
   }
   if(!command){
@@ -41,11 +45,40 @@ function mcl(user_id, chat_id){
   }
   let data = {
     method: 'get',
-    path: 'weather',
+    path: 'membership',
     body: {
-      location: location
+      userId: user_id,
+      chatIds:chat_id
     },
     onSuccess: command
   };
   apiCall(data)
 }
+
+function onApiAnswer() {
+
+  // Parse the content of the response, which is in JSON format
+  let options = content;
+  try {
+    options = JSON.parse(options);
+  } catch(error) {
+  }
+  
+  if(!params || params === null || params === 'null'){
+     
+  }else{
+    Bot.runCommand(params, options);
+  }
+}
+
+// Function called when an API request results in an error
+function onApiError() {
+  throw content + '\nGet Help at @ProjectoidChat';
+}
+  publish({
+    apiCall: apiCall,
+    mcl: mcl
+  })
+
+on(lib + "onApiAnswer", onApiAnswer)
+on(lib + "onApiError", onApiError)
